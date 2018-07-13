@@ -15,7 +15,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -37,9 +40,10 @@ public class TestingOrangeHRM {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown()throws InterruptedException{
         reports.endTest(tests);
         reports.flush();
+        Thread.sleep(5000);
         driver.quit();
     }
 
@@ -81,12 +85,12 @@ public class TestingOrangeHRM {
     @When("^I fill out the Employee Details correctly$")
     public void i_fill_out_the_Employee_Details_correctly() {
         // Write code here that turns the phrase above into concrete actions
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
         driver.get(Constant.ADDEMPLOYEE);
         WebElement myDynamicElement = driver.findElement(By.xpath("//*[@id=\"firstName\"]"));
         driver.navigate().to(Constant.ADDEMPLOYEE);
         DashBoard dash = PageFactory.initElements(driver, DashBoard.class);
-        dash.addEmployee("Jonathan","Edgar","Churchill");
+        dash.addEmployee("Jonathanxaxaxaxa","Edgar","Churchill");
     }
 
     @When("^I choose to create Login Details by clicking the appropriate button$")
@@ -100,27 +104,44 @@ public class TestingOrangeHRM {
     @When("^I fill out the Login Details correctly$")public void i_fill_out_the_Login_Details_correctly() {
         // Write code here that turns the phrase above into concrete actions
         DashBoard dash = PageFactory.initElements(driver, DashBoard.class);
-        dash.fillLoginDetails("JEChurchill","!123qweASD");
+        Random rand = new Random();
+        int  n = rand.nextInt(50000) + 100;
+        dash.fillLoginDetails("JEChurchill15"+n,"!123qweASD");
 
     }
 
     @When("^I click the Save button$")
-    public void i_click_the_Save_button() {
+    public void i_click_the_Save_button() {//throws InterruptedException {
         // Write code here that turns the phrase above into concrete actions
+       // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+     //   driver.get(Constant.DASHBOARD);
+        WebElement myDynamicElement = driver.findElement(By.xpath("//a[@id='menu_pim_viewEmployeeList']/span[2]"));
+      //  driver.navigate().to(Constant.DASHBOARD);
         DashBoard dash = PageFactory.initElements(driver, DashBoard.class);
+       // Thread.sleep(1000);
         dash.clickSaveButton();
 
     }
     @Then("^I can search for the Employee I have just created$")
     public void i_can_search_for_the_Employee_I_have_just_created() {
-        // Write code here that turns the phrase above into concrete actions
+//        driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+//        driver.get(Constant.DASHBOARD);
+//        WebElement myDynamicElement = driver.findElement(By.id("menu_pim_viewEmployeeList"));
+//        driver.navigate().to(Constant.DASHBOARD);
+
+        //WebElement myDynamicElement = (new WebDriverWait(driver, 1000)) .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@id='menu_pim_viewEmployeeList']/span[2]")));
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("first_name")));
+        driver.findElement(By.id("menu_pim_viewEmployeeList")).click();
+
         DashBoard dash = PageFactory.initElements(driver, DashBoard.class);
-        dash.viewNewEmployee("JEChurchill");
+        dash.viewNewEmployee();
     }
 
-    @Then("^select them for inspection$")public void select_them_for_inspection() {
+    @Then("^select them for inspection$")public void select_them_for_inspection() throws InterruptedException {
         // Write code here that turns the phrase above into concrete actions
         DashBoard dash = PageFactory.initElements(driver, DashBoard.class);
+        Thread.sleep(5000);
         dash.inspectNewEmployee();
     }
 }

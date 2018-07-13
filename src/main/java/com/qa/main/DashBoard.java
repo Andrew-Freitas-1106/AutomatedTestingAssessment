@@ -1,5 +1,6 @@
 package com.qa.main;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -62,8 +63,8 @@ public class DashBoard {
         middleName.sendKeys(inputMiddleName);
         lastName.sendKeys(inputLastName);
         location.click();
-        location.sendKeys("l");
-        location.click();
+        location.sendKeys("lon");
+        location.sendKeys(Keys.ENTER);
     }
 
     public void clickCreateLoginDetailsButton(){
@@ -76,17 +77,17 @@ public class DashBoard {
         confirmPassword.sendKeys(inputPassword);
         adminRole.click();
         adminRole.sendKeys("g");
-        adminRole.click();
+        adminRole.sendKeys(Keys.ENTER);
     }
 
     public void clickSaveButton(){
         saveButton.click();
     }
 
-    public void viewNewEmployee(String search){
-        employeeListButton.click();
+    public void viewNewEmployee(){
+      //  employeeListButton.click();
         employeeSearchBar.click();
-        employeeSearchBar.sendKeys(search);
+        employeeSearchBar.sendKeys("0227");
     }
 
     public void inspectNewEmployee(){
